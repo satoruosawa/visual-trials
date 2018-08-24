@@ -27,4 +27,9 @@ class ParticleSystem {
 
   public void addParticle(Particle p) { particles.add(p); }
   public void addSpring(Spring s) { springs.add(s); }
+
+  public Particle getParticle(int i) {
+    return particles.get(i);
+  }
+  public int getParticleSize() { return particles.size(); }
 }

@@ -7,16 +7,25 @@ void setup() {
   size(1080, 1080);
   particleSystem = new ParticleSystem();
 
-  Particle particleA = new Particle();
-  particleA.position(new PVector(random(0.0, width), random(0.0, height)));
-  Particle particleB = new Particle();
-  particleB.position(new PVector(random(0.0, width), random(0.0, height)));
-  particleSystem.addParticle(particleA);
-  particleSystem.addParticle(particleB);
-  Spring spring = new Spring(particleA, particleB);
-  spring.springLength(500);
-  spring.springiness(0.01);
-  particleSystem.addSpring(spring);
+  int particleNum = 50;
+  for (int i = 0; i < particleNum; i++) {
+    Particle p = new Particle();
+    p.size(3);
+    p.friction(0.01);
+    p.position(new PVector(
+      width / 2 + 400 * cos(i * TWO_PI / particleNum),
+      height / 2 + 400 * sin(i * TWO_PI / particleNum)
+    ));
+    particleSystem.addParticle(p);
+  }
+  for (int i = 0; i < particleNum; i++) {
+    Particle pA = particleSystem.getParticle(i);
+    Particle pB = particleSystem.getParticle((i + 1) % particleNum);
+    Spring s = new Spring(pA, pB);
+    s.springLength(10);
+    s.springiness(0.1);
+    particleSystem.addSpring(s);
+  }
 }
 
 void update() {
@@ -25,6 +34,9 @@ void update() {
 
 void draw() {
   background(255);
+  // noStroke();
+  // fill(255, 1);
+  // rect(0, 0, width, height);
   update();
   particleSystem.draw();
 }

@@ -21,6 +21,7 @@ class Spring {
   public void draw() {
     noFill();
     stroke(0);
+    strokeWeight(0.01);
     PVector posA = particleA.position();
     PVector posB = particleB.position();
     line(posA.x, posA.y, posB.x, posB.y);
