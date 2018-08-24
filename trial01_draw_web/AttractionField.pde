@@ -17,6 +17,7 @@ class AttractionField extends Field {
       float pct = 1 - (distance / sleshhold);
       posToParticle.normalize();
       PVector frcToAdd = posToParticle.mult(-pct * strength);
+      frcToAdd.add((new PVector(random(-1, 1), random(-1, 1))).mult(0.1));
       particle.addForce(frcToAdd);
     }
   }

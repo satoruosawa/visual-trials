@@ -10,10 +10,10 @@ void setup() {
   background(0);
 
   basicField = new BasicField();
-  basicField.friction(0.01);
+  basicField.friction(0.02);
   attractionField = new AttractionField();
   attractionField.strength(-0.1);
-  attractionField.sleshhold(200);
+  attractionField.sleshhold(500);
   particleSystem = new ParticleSystem();
   int particleNum = 200;
   for (int i = 0; i < particleNum; i++) {
@@ -44,9 +44,9 @@ void update() {
 
 void draw() {
   // background(0);
-  // noStroke();
-  // fill(0, 10);
-  // rect(0, 0, width, height);
+  noStroke();
+  fill(0, 10);
+  rect(0, 0, width, height);
   update();
   particleSystem.draw();
 }

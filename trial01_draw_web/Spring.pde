@@ -22,7 +22,7 @@ class Spring {
 
   public void draw() {
     noFill();
-    stroke(255);
+    stroke(255, 0, 0, 70);
     strokeWeight(0.01);
     PVector posA = particleA.position();
     PVector posB = particleB.position();
