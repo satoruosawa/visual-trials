@@ -1,12 +1,14 @@
 class Spring {
   protected Particle particleA;
   protected Particle particleB;
-  private float springLength = 1;
-  private float springiness = 1;
+  private float springLength;
+  private float springiness;
 
   public Spring(Particle particleA, Particle particleB) {
     this.particleA = particleA;
     this.particleB = particleB;
+    springLength = 1;
+    springiness = 1;
   }
 
   public void update() {
@@ -20,7 +22,7 @@ class Spring {
 
   public void draw() {
     noFill();
-    stroke(0);
+    stroke(255);
     strokeWeight(0.01);
     PVector posA = particleA.position();
     PVector posB = particleB.position();

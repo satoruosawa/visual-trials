@@ -2,16 +2,19 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 ParticleSystem particleSystem;
+BasicField basicField = new BasicField();
 
 void setup() {
   size(1080, 1080);
-  particleSystem = new ParticleSystem();
+  background(0);
 
-  int particleNum = 50;
+  basicField.friction(0.01);
+  particleSystem = new ParticleSystem();
+  int particleNum = 200;
   for (int i = 0; i < particleNum; i++) {
     Particle p = new Particle();
     p.size(3);
-    p.friction(0.01);
+    p.addField(basicField);
     p.position(new PVector(
       width / 2 + 400 * cos(i * TWO_PI / particleNum),
       height / 2 + 400 * sin(i * TWO_PI / particleNum)
@@ -23,7 +26,7 @@ void setup() {
     Particle pB = particleSystem.getParticle((i + 1) % particleNum);
     Spring s = new Spring(pA, pB);
     s.springLength(30);
-    s.springiness(0.1);
+    s.springiness(0.01);
     particleSystem.addSpring(s);
   }
 }
@@ -33,9 +36,9 @@ void update() {
 }
 
 void draw() {
-  background(255);
+  // background(255);
   // noStroke();
-  // fill(255, 1);
+  // fill(0, 10);
   // rect(0, 0, width, height);
   update();
   particleSystem.draw();
