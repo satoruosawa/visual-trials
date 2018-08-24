@@ -22,7 +22,7 @@ void setup() {
     Particle pA = particleSystem.getParticle(i);
     Particle pB = particleSystem.getParticle((i + 1) % particleNum);
     Spring s = new Spring(pA, pB);
-    s.springLength(10);
+    s.springLength(30);
     s.springiness(0.1);
     particleSystem.addSpring(s);
   }

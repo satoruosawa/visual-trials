@@ -9,7 +9,7 @@ class Particle {
   public void addForce(PVector f) { force.add(f); }
 
   public void update() {
-    force.sub(velocity.mult(friction));
+    force.sub(PVector.mult(velocity, friction));
     velocity.add(force);
     position.add(velocity);
   }
