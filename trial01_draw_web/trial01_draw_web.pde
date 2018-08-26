@@ -64,6 +64,7 @@ void draw() {
   updatePixels();
   update();
   particleSystem.draw();
+  saveFrame("frames/######.tif");
 }
 
 void keyPressed() {
