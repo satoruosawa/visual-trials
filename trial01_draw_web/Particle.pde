@@ -24,11 +24,7 @@ class Particle {
     position.add(velocity);
   }
 
-  public void draw() {
-    // noStroke();
-    // fill(255);
-    // ellipse(position.x, position.y, size, size);
-  }
+  public void draw() {}
 
   public void position(PVector p) { position = p; }
   public void velocity(PVector v) { velocity = v; }

@@ -43,10 +43,13 @@ void update() {
 }
 
 void draw() {
-  // background(0);
-  noStroke();
-  fill(0, 10);
-  rect(0, 0, width, height);
+  loadPixels();
+  for (int i = 0; i < width * height; i++) {
+    color c = pixels[i];
+    float coef = 0.99;
+    pixels[i] = color(red(c) * coef, green(c) * coef, blue(c) * coef);
+  }
+  updatePixels();
   update();
   particleSystem.draw();
 }
