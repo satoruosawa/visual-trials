@@ -3,12 +3,14 @@ class Spring {
   protected Particle particleB;
   private float springLength;
   private float springiness;
+  private color springColor;
 
   public Spring(Particle particleA, Particle particleB) {
     this.particleA = particleA;
     this.particleB = particleB;
     springLength = 1;
     springiness = 1;
+    springColor = color(0, 0, 0);
   }
 
   public void update() {
@@ -22,7 +24,7 @@ class Spring {
 
   public void draw() {
     noFill();
-    stroke(255, 0, 0, 70);
+    stroke(springColor);
     strokeWeight(0.01);
     PVector posA = particleA.position();
     PVector posB = particleB.position();
@@ -31,4 +33,5 @@ class Spring {
 
   public void springLength(float s) { springLength = s; }
   public void springiness(float s) { springiness = s; }
+  public void springColor(color c) { springColor = c; }
 }
