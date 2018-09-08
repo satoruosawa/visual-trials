@@ -8,14 +8,14 @@ void main(void)	{
     baseTexture,
     vec2(
       gl_FragCoord.x / textureSize.x,
-      ((textureSize.y - 1) - gl_FragCoord.y) / textureSize.y
+      1.0 - gl_FragCoord.y / textureSize.y
     )
   );
   vec4 overlayColor = texture2D(
     overlayTexture,
     vec2(
       gl_FragCoord.x / textureSize.x,
-      ((textureSize.y - 1) - gl_FragCoord.y) / textureSize.y
+      1.0 - gl_FragCoord.y / textureSize.y
     )
   );
   vec4 color = baseColor;

@@ -14,11 +14,11 @@ void setup() {
 
   V_BLUR = loadShader("blur.glsl");
   V_BLUR.set("textureSize", new PVector(width, height, 0));
-  V_BLUR.set("amount", 2.0);
+  V_BLUR.set("amount", 10);
   V_BLUR.set("isVertical", true);
   H_BLUR = loadShader("blur.glsl");
   H_BLUR.set("textureSize", new PVector(width, height, 0));
-  H_BLUR.set("amount", 2.0);
+  H_BLUR.set("amount", 10);
   H_BLUR.set("isVertical", false);
   OVERLAY = loadShader("overlay.glsl");
   OVERLAY.set("textureSize", new PVector(width, height, 0));
@@ -29,8 +29,11 @@ void draw() {
     PG.background(0);
     PG.fill(255);
     PG.noStroke();
-    PG.rect(mouseX, mouseY, 100, 100);
-    PG.rect(100, 100, 100, 100);
+    PG.rect(mouseX, mouseY, 100, 100, 10);
+    PG.rect(1, 1, 100, 100);
+    PG.rect(width - 101, 1, 100, 100);
+    PG.rect(1, height - 101, 100, 100);
+    PG.rect(width - 101, height - 101, 100, 100);
   } PG.endDraw();
   V_BLUR.set("sampleTexture", PG.get());
   shader(V_BLUR); {
