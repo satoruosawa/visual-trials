@@ -3,11 +3,14 @@ import java.util.*;
 
 PShader V_BLUR;
 PShader H_BLUR;
+PShader OVERLAY;
+PGraphics PG;
 
 void setup() {
   size(1080, 1080, P2D);
   background(255);
   frameRate(60);
+  PG = createGraphics(1080, 1080, P2D);
 
   V_BLUR = loadShader("blur.glsl");
   V_BLUR.set("textureSize", new PVector(width, height, 0));
@@ -17,20 +20,29 @@ void setup() {
   H_BLUR.set("textureSize", new PVector(width, height, 0));
   H_BLUR.set("amount", 2.0);
   H_BLUR.set("isVertical", false);
+  OVERLAY = loadShader("overlay.glsl");
+  OVERLAY.set("textureSize", new PVector(width, height, 0));
 }
 
 void draw() {
-  background(0);
-  fill(255);
-  noStroke();
-  rect(mouseX, mouseY, 100, 100);
-  rect(100, 100, 100, 100);
-  V_BLUR.set("sampleTexture", get());
+  PG.beginDraw(); {
+    PG.background(0);
+    PG.fill(255);
+    PG.noStroke();
+    PG.rect(mouseX, mouseY, 100, 100);
+    PG.rect(100, 100, 100, 100);
+  } PG.endDraw();
+  V_BLUR.set("sampleTexture", PG.get());
   shader(V_BLUR); {
     rect(0, 0, width, height);
   } resetShader();
   H_BLUR.set("sampleTexture", get());
   shader(H_BLUR); {
+    rect(0, 0, width, height);
+  } resetShader();
+  OVERLAY.set("baseTexture", get());
+  OVERLAY.set("overlayTexture", PG.get());
+  shader(OVERLAY); {
     rect(0, 0, width, height);
   } resetShader();
 }
