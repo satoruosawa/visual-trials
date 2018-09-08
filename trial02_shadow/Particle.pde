@@ -26,7 +26,7 @@ class Particle {
 
   public void draw() {
     PG.beginDraw(); {
-      PG.fill(0);
+      PG.fill(112, 154, 190);
       PG.noStroke();
       PG.ellipse(position.x, position.y, size, size);
     } PG.endDraw();

@@ -17,11 +17,11 @@ void setup() {
 
   V_BLUR = loadShader("blur.glsl");
   V_BLUR.set("textureSize", new PVector(width, height));
-  V_BLUR.set("amount", 10);
+  V_BLUR.set("amount", 3);
   V_BLUR.set("isVertical", true);
   H_BLUR = loadShader("blur.glsl");
   H_BLUR.set("textureSize", new PVector(width, height));
-  H_BLUR.set("amount", 10);
+  H_BLUR.set("amount", 3);
   H_BLUR.set("isVertical", false);
   SHIFT = loadShader("shift.glsl");
   SHIFT.set("textureSize", new PVector(width, height));
@@ -30,29 +30,31 @@ void setup() {
   OVERLAY.set("textureSize", new PVector(width, height));
 
   BasicField basicField = new BasicField();
+  basicField.friction(0.005);
   PARTICLE_SYSTEM = new ParticleSystem();
   int particleNum = 100;
   for (int i = 0; i < particleNum; i++) {
     Particle p = new Particle();
-    p.size(random(10, 100));
+    p.size(random(10, 30));
     p.addField(basicField);
     p.position(new PVector(
       width / 2 + 500 * cos(i * TWO_PI / particleNum),
       height / 2 + 500 * sin(i * TWO_PI / particleNum)
     ));
     p.velocity(new PVector(
-      random(-1, 1), random(-1, 1)
+      10 * sin(i * TWO_PI / particleNum) * random(0.5, 1.0),
+      -10 * cos(i * TWO_PI / particleNum) * random(0.5, 1.0)
     ));
     PARTICLE_SYSTEM.addParticle(p);
   }
 }
 
 void update() {
-  float elevation = 2 + 5 * (1 + sin(TWO_PI * FRAME_COUNT / 60.0 / 3.0));
-  V_BLUR.set("amount", int(elevation));
-  H_BLUR.set("amount", int(elevation));
-  SHIFT.set("amount", new PVector(elevation / 5, elevation / 5));
-  FRAME_COUNT++;
+  // float elevation = 2 + 5 * (1 + sin(TWO_PI * FRAME_COUNT / 60.0 / 3.0));
+  // V_BLUR.set("amount", int(elevation));
+  // H_BLUR.set("amount", int(elevation));
+  // SHIFT.set("amount", new PVector(elevation / 5, elevation / 5));
+  // FRAME_COUNT++;
 
   PARTICLE_SYSTEM.update();
 }
@@ -60,7 +62,7 @@ void update() {
 void draw() {
   update();
   PG.beginDraw(); {
-    PG.background(178, 174, 164);
+    PG.background(0);
   } PG.endDraw();
   PARTICLE_SYSTEM.draw();
   V_BLUR.set("sampleTexture", PG.get());
