@@ -21,7 +21,7 @@ void main(void)	{
   vec4 color = baseColor;
   if (overlayMode == 0) {
     if (overlayColor.r == 0) {
-      color = vec4(1.0);
+      color = vec4(0.7, 0.68, 0.64, 1.0);
     }
   }
   gl_FragColor = vec4(color.rgb, 1.0);
