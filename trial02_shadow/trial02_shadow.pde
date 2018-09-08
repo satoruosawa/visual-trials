@@ -28,12 +28,23 @@ void setup() {
   OVERLAY.set("textureSize", new PVector(width, height));
 }
 
+int FRAME_COUNT = 0;
+
+void update() {
+  float elevation = 1 + 10 * (1 + sin(TWO_PI * FRAME_COUNT / 60.0 / 3.0));
+  V_BLUR.set("amount", int(elevation));
+  H_BLUR.set("amount", int(elevation));
+  SHIFT.set("amount", new PVector(elevation / 5, elevation / 5));
+  FRAME_COUNT++;
+}
+
 void draw() {
+  update();
   PG.beginDraw(); {
-    PG.background(0);
-    PG.fill(178, 174, 164);
+    PG.background(178, 174, 164);
+    PG.fill(0);
     PG.noStroke();
-    PG.rect(mouseX, mouseY, 100, 100, 10);
+    PG.ellipse(FRAME_COUNT, FRAME_COUNT, 100, 100);
   } PG.endDraw();
   V_BLUR.set("sampleTexture", PG.get());
   shader(V_BLUR); {
@@ -52,6 +63,7 @@ void draw() {
   shader(OVERLAY); {
     rect(0, 0, width, height);
   } resetShader();
+  saveFrame("frames/######.tif");
 }
 
 void keyPressed() {
