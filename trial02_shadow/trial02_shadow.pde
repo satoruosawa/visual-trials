@@ -6,6 +6,8 @@ PShader H_BLUR;
 PShader OVERLAY;
 PShader SHIFT;
 PGraphics PG;
+ParticleSystem PARTICLE_SYSTEM;
+int FRAME_COUNT = 0;
 
 void setup() {
   size(1080, 1080, P2D);
@@ -26,26 +28,41 @@ void setup() {
   SHIFT.set("amount", new PVector(3, 3));
   OVERLAY = loadShader("overlay.glsl");
   OVERLAY.set("textureSize", new PVector(width, height));
+
+  BasicField basicField = new BasicField();
+  PARTICLE_SYSTEM = new ParticleSystem();
+  int particleNum = 100;
+  for (int i = 0; i < particleNum; i++) {
+    Particle p = new Particle();
+    p.size(random(10, 100));
+    p.addField(basicField);
+    p.position(new PVector(
+      width / 2 + 500 * cos(i * TWO_PI / particleNum),
+      height / 2 + 500 * sin(i * TWO_PI / particleNum)
+    ));
+    p.velocity(new PVector(
+      random(-1, 1), random(-1, 1)
+    ));
+    PARTICLE_SYSTEM.addParticle(p);
+  }
 }
 
-int FRAME_COUNT = 0;
-
 void update() {
-  float elevation = 1 + 10 * (1 + sin(TWO_PI * FRAME_COUNT / 60.0 / 3.0));
+  float elevation = 2 + 5 * (1 + sin(TWO_PI * FRAME_COUNT / 60.0 / 3.0));
   V_BLUR.set("amount", int(elevation));
   H_BLUR.set("amount", int(elevation));
   SHIFT.set("amount", new PVector(elevation / 5, elevation / 5));
   FRAME_COUNT++;
+
+  PARTICLE_SYSTEM.update();
 }
 
 void draw() {
   update();
   PG.beginDraw(); {
     PG.background(178, 174, 164);
-    PG.fill(0);
-    PG.noStroke();
-    PG.ellipse(FRAME_COUNT, FRAME_COUNT, 100, 100);
   } PG.endDraw();
+  PARTICLE_SYSTEM.draw();
   V_BLUR.set("sampleTexture", PG.get());
   shader(V_BLUR); {
     rect(0, 0, width, height);
