@@ -4,6 +4,9 @@ import java.util.*;
 void setup() {
   size(1080, 1080);
   background(255);
+  PImage img;
+  img = loadImage("background2.png");
+  image(img, 0, 0);
 	noFill();
 	strokeWeight(0.05);
 }
