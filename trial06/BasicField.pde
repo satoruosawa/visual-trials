@@ -5,7 +5,7 @@ class BasicField extends Field {
 
   public BasicField() {
     super();
-    wallBehavior = WallBehavior.BOUNCE;
+    wallBehavior = WallBehavior.ORIGINAL;
     friction = 0.01;
     cor = 1;
   }
@@ -15,7 +15,7 @@ class BasicField extends Field {
   }
 
   public void didUpdateParticle(Particle particle) {
-    // wallBehavior(particle);
+    wallBehavior(particle);
   }
 
   public void wallBehavior(Particle particle) {
@@ -25,6 +25,9 @@ class BasicField extends Field {
         break;
       case THROUGH:
         throughOfWalls(particle);
+        break;
+      case ORIGINAL:
+        original(particle);
         break;
     }
   }
@@ -73,11 +76,24 @@ class BasicField extends Field {
     }
   }
 
+  private void original(Particle particle) {
+    float raduis = 50.0;
+    PVector pos = particle.position();
+    PVector center = new PVector(width / 2, height * 2 / 3);
+    PVector posFromCenter = PVector.sub(pos, center);
+    if (posFromCenter.mag() < raduis) {
+      posFromCenter.setMag(raduis);
+      pos.x = posFromCenter.x + center.x;
+      pos.y = posFromCenter.y + center.y;
+    }
+  }
+
   public void friction(float f) { friction = f; }
   public void cor(float c) { cor = c; }
 }
 
 enum WallBehavior {
   BOUNCE,
-  THROUGH
+  THROUGH,
+  ORIGINAL
 };

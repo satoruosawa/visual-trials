@@ -15,7 +15,7 @@ void setup() {
 }
 
 void update() {
-  for (int i = 0; i < 1; i ++) {
+  for (int i = 0; i < 500; i ++) {
     float angle = random(TWO_PI);
     float radius = random(RADIUS);
     float x = 300 + radius * cos(angle);
@@ -24,8 +24,7 @@ void update() {
     particle.position(new PVector(x, y));
     particle.addField(BASIC_FIELD);
     particle.addField(VECTOR_FIELD);
-    // particle.size(0.5);
-    particle.size(3);
+    particle.size(0.5);
     PARTICLE_SYSTEM.addParticle(particle);
   }
   PARTICLE_SYSTEM.update();
