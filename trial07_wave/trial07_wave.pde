@@ -34,7 +34,7 @@ void setup() {
 
 void update() {
   PARTICLE_SYSTEM.update();
-  PARTICLE_SYSTEM.getParticle(99).position(new PVector(
+  PARTICLE_SYSTEM.getParticle(NUM_PARTICLE - 1).position(new PVector(
     width / 2 + SPRING_LENGTH * (NUM_PARTICLE - 1),
     height / 2)
   );
