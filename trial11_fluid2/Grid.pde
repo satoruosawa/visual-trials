@@ -26,7 +26,7 @@ class Grid {
   private void updteAdvection() {
     for (int i = 0; i < numColumn; i++) {
       for (int j = 0; j < numRow; j++) {
-        // semi-Lagrange
+        // semi-Lagrangian
         PVector velocityPosition = new PVector(i, j).mult(gridSize);
         PVector prevVelocityPosition = velocityPosition.sub(prevVelocities[getIndex(i, j)]);
         PVector prevVelocityRef = PVector.div(prevVelocityPosition, gridSize);
@@ -66,15 +66,15 @@ class Grid {
   }
 
   public void addLerpVelocity(PVector position, PVector velocity) {
-    PVector velocityRef = PVector.div(position, gridSize);
-    int left = floor(velocityRef.x - 0.5);
-    int top = floor(velocityRef.y - 0.5);
-    float alpha = (velocityRef.x) % 1;
-    float beta = (velocityRef.y) % 1;
-    addVelocity(left, top, PVector.mult(velocity, alpha * beta));
-    addVelocity(left + 1, top, PVector.mult(velocity, (1 - alpha) * beta));
-    addVelocity(left, top + 1, PVector.mult(velocity, alpha * (1 - beta)));
-    addVelocity(left + 1, top + 1, PVector.mult(velocity, (1 - alpha) * (1 - beta)));
+    PVector velocityRef = PVector.div(position, gridSize).sub(0.5, 0.5);
+    int left = floor(velocityRef.x);
+    int top = floor(velocityRef.y);
+    float alpha = (velocityRef.x) - left;
+    float beta = (velocityRef.y) - top;
+    addVelocity(left, top, PVector.mult(velocity, (1 - alpha) * (1 - beta)));
+    addVelocity(left + 1, top, PVector.mult(velocity, alpha * (1 - beta)));
+    addVelocity(left, top + 1, PVector.mult(velocity, (1 - alpha) * beta));
+    addVelocity(left + 1, top + 1, PVector.mult(velocity, alpha * beta));
   }
 
   private void addVelocity(int column, int row, PVector velocity) {

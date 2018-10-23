@@ -1,5 +1,5 @@
 Grid grid;
-int rectSize = 10;
+int rectSize = 54;
 
 void setup() {
   size(1080, 1080);
