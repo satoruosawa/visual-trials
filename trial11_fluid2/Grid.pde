@@ -21,6 +21,8 @@ class Grid {
 
   public void update() {
     updteAdvection();
+    updateSimpleIncompressible();
+    updateSimplicityDiffusion();
   }
 
   private void updteAdvection() {
@@ -30,37 +32,85 @@ class Grid {
         PVector velocityPosition = new PVector(i, j).mult(gridSize);
         PVector prevVelocityPosition = velocityPosition.sub(prevVelocities[getIndex(i, j)]);
         PVector prevVelocityRef = PVector.div(prevVelocityPosition, gridSize);
-        velocities[getIndex(i, j)] = getLerpVelocity(prevVelocityRef.x, prevVelocityRef.y);
+        velocities[getIndex(i, j)] = calculateLerpPrevVelocity(prevVelocityRef.x, prevVelocityRef.y);
       }
     }
-    prevVelocities = velocities;
+    for (int i = 0; i < numColumn; i++) {
+      for (int j = 0; j < numRow; j++) {
+        prevVelocities[getIndex(i, j)] = velocities[getIndex(i, j)].copy();
+      }
+    }
+  }
+
+  private void updateSimpleIncompressible() {
+    // TODO
+    // for (int i = 0; i < numColumn; i++) {
+    //   for (int j = 0; j < numRow; j++) {
+    //     PVector leftVelocity = getPrevVelocity(i - 1, j);
+    //     PVector rightVelocity = getPrevVelocity(i + 1, j);
+    //     PVector topVelocity = getPrevVelocity(i, j - 1);
+    //     PVector bottomVelocity = getPrevVelocity(i, j + 1);
+    //     velocities[getIndex(i, j)] = new PVector(
+    //       (leftVelocity.x + rightVelocity.x) / 2,
+    //       (topVelocity.y + bottomVelocity.y) / 2
+    //     );
+    //   }
+    // }
+    // for (int i = 0; i < numColumn; i++) {
+    //   for (int j = 0; j < numRow; j++) {
+    //     prevVelocities[getIndex(i, j)] = velocities[getIndex(i, j)].copy();
+    //   }
+    // }
+  }
+
+  private void updateSimplicityDiffusion() {
+    // TODO: Check algorithm
+    for (int i = 0; i < numColumn; i++) {
+      for (int j = 0; j < numRow; j++) {
+        float antiDiffusionRatio = 0.2;
+        float diffusionRatio = (1.0 - antiDiffusionRatio) / 4;
+        PVector leftVelocity = PVector.mult(getPrevVelocity(i - 1, j), diffusionRatio);
+        PVector rightVelocity = PVector.mult(getPrevVelocity(i + 1, j), diffusionRatio);
+        PVector topVelocity = PVector.mult(getPrevVelocity(i, j - 1), diffusionRatio);
+        PVector bottomVelocity = PVector.mult(getPrevVelocity(i, j + 1), diffusionRatio);
+        velocities[getIndex(i, j)] = PVector
+          .mult(prevVelocities[getIndex(i, j)], antiDiffusionRatio)
+          .add(leftVelocity).add(rightVelocity)
+          .add(topVelocity).add(bottomVelocity);
+      }
+    }
+    for (int i = 0; i < numColumn; i++) {
+      for (int j = 0; j < numRow; j++) {
+        prevVelocities[getIndex(i, j)] = velocities[getIndex(i, j)].copy();
+      }
+    }
   }
 
   private int getIndex(int column, int row) {
     return row * numColumn + column;
   }
 
-  private PVector getVelocityPosition(int column, int row) {
-    return new PVector(column, row).add(0.5, 0.5).mult(gridSize);
+  private PVector generateVelocityPosition(int column, int row) {
+    return (new PVector(column, row).add(0.5, 0.5)).mult(gridSize);
   }
 
-  private PVector getVelocity(int column, int row) {
+  private PVector getPrevVelocity(int column, int row) {
     if (column < 0 || column >= numColumn || row < 0 || row >= numRow) {
       return new PVector(0, 0);
     }
     return prevVelocities[getIndex(column, row)];
   }
 
-  private PVector getLerpVelocity(float column, float row) {
+  private PVector calculateLerpPrevVelocity(float column, float row) {
     int left = floor(column);
     int top = floor(row);
     int right = left + 1;
     int bottom = top + 1;
     PVector topLerp = PVector.lerp(
-      getVelocity(left, top), getVelocity(right, top), column - left
+      getPrevVelocity(left, top), getPrevVelocity(right, top), column - left
     );
     PVector bottomLerp = PVector.lerp(
-      getVelocity(left, bottom), getVelocity(right, bottom), column - left
+      getPrevVelocity(left, bottom), getPrevVelocity(right, bottom), column - left
     );
     return PVector.lerp(topLerp, bottomLerp, row - top);
   }
@@ -89,7 +139,7 @@ class Grid {
       for (int j = 0; j < numRow; j++) {
         noStroke();
         fill(0);
-        PVector position = getVelocityPosition(i, j);
+        PVector position = generateVelocityPosition(i, j);
         ellipse(position.x, position.y, 1, 1);
         stroke(0);
         noFill();
@@ -97,8 +147,8 @@ class Grid {
         line(
           position.x,
           position.y,
-          position.x + velocity.x,
-          position.y + velocity.y
+          position.x + velocity.x * 4,
+          position.y + velocity.y * 4
         );
       }
     }

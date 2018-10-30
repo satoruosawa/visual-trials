@@ -1,5 +1,5 @@
 Grid grid;
-int rectSize = 54;
+int rectSize = 10;
 
 void setup() {
   size(1080, 1080);
@@ -18,7 +18,7 @@ void draw() {
 }
 
 void mouseMoved() {
-  PVector diffMouse = new PVector(mouseX - pmouseX, mouseY - pmouseY);
+  PVector diffMouse = new PVector(mouseX - pmouseX, mouseY - pmouseY).mult(10);
   PVector position = new PVector(mouseX, mouseY);
   grid.addLerpVelocity(position, diffMouse);
 }
