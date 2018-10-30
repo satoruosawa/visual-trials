@@ -14,7 +14,7 @@ void draw() {
   update();
   background(255);
   grid.draw();
-  // saveFrame("frames/######.tif");
+  saveFrame("frames/######.tif");
 }
 
 void mouseMoved() {
