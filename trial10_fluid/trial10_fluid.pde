@@ -25,5 +25,5 @@ void draw() {
 
 void mouseMoved() {
   PVector diffMouse = new PVector(mouseX - pmouseX, mouseY - pmouseY);
-  fluidField.setHeight(mouseY / rectSize, mouseX / rectSize, diffMouse.mag() * 0.5);
+  fluidField.setHeight(mouseY / rectSize, mouseX / rectSize, diffMouse.mag() * 10.0);
 }
