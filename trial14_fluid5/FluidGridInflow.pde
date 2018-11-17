@@ -20,7 +20,8 @@ class FluidGridInflow extends StaggeredGrid implements Field {
       println("No index in prevVelocitiesX. @getPrevVelocityX");
       return 0.0;
     }
-    if (indexX == 1 && indexY == width / 2 / gridWidth) {
+    int centerIndex = width / 2 / gridWidth;
+    if (indexX == 1 && (indexY >= centerIndex - 1 && indexY < centerIndex + 1)) {
       return 400.0;
     }
     if (indexX == 1 || indexX == numGridX - 1) {
