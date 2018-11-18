@@ -23,7 +23,13 @@ class Particle {
   }
 
   public void draw() {
-    stroke(0, 255 - abs(256 - life));
+    float alpha = 255 - abs(256 - life);
+    float colorCoef = velocity.mag() / 20.0;
+    colorCoef = constrain(colorCoef, 0, 1);
+    float red = lerp(0, 255, colorCoef);
+    float green = lerp(200, 0, colorCoef);
+    float blue = lerp(200, 0, colorCoef);
+    stroke(red, green, blue, alpha);
     point(position.x, position.y, position.z);
   }
 
