@@ -190,7 +190,7 @@ class StaggeredGrid {
   protected void updatePressure() {
     // Incompressible
     // SOR (Successive over-relaxation)
-    int numSorRepeat = 3;
+    int numSorRepeat = 20;
     float sorRelaxationFactor = 1.0; // should more than 1
     // h = dx = dy = rectSize
     // Density [rho]

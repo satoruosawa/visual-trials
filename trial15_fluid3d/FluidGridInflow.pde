@@ -23,8 +23,10 @@ class FluidGridInflow extends StaggeredGrid implements Field {
       println("No index in prevVelocitiesX. @getPrevVelocityX");
       return 0.0;
     }
-    if (indexX == 1 && indexY == width / 2 / gridSize && indexZ == width / 2 / gridSize) {
-      return 160000.0;
+    int yIndexCenter = HEIGHT / 2 / gridSize;
+    int zIndexCenter = DEPTH / 2 / gridSize;
+    if (indexX == 1 && indexY == yIndexCenter && indexZ == zIndexCenter) {
+      return 500.0;
     }
     if (indexX == 1 || indexX == numGridX - 1) {
       // On the wall
