@@ -2,10 +2,9 @@ import { ParticleSystem } from './particle-system.js'
 import { Particle } from './particle.js'
 
 let tracks = 0
+const particleSystem = new ParticleSystem()
 
 export const Sketch = p5 => {
-  const particleSystem = new ParticleSystem(p5)
-
   p5.setup = () => {
     p5.createCanvas(1000, 1000)
     p5.background('#f5f5f5')
@@ -37,6 +36,7 @@ export const Sketch = p5 => {
   p5.draw = () => {
     update()
     p5.fill(255, 10)
+    p5.noStroke()
     p5.rect(0, 0, p5.width, p5.height)
     p5.noFill()
     p5.strokeWeight(4)
