@@ -1,12 +1,13 @@
 import { ParticleSystem } from './particle-system.js'
 import { Particle } from './particle.js'
 
+let canvas
 let tracks = 0
 const particleSystem = new ParticleSystem()
 
 export const Sketch = p5 => {
   p5.setup = () => {
-    p5.createCanvas(1000, 1000)
+    canvas = p5.createCanvas(1000, 1000)
     p5.background('#f5f5f5')
   }
 
@@ -44,5 +45,11 @@ export const Sketch = p5 => {
     p5.beginShape()
     particleSystem.draw()
     p5.endShape()
+  }
+
+  p5.keyPressed = () => {
+    if (p5.key === 's') {
+      p5.saveCanvas(canvas, 'screenshot.png')
+    }
   }
 }
