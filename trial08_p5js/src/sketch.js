@@ -1,6 +1,8 @@
 import { ParticleSystem } from './particle-system.js'
 import { Particle } from './particle.js'
 
+let tracks = 0
+
 export const Sketch = p5 => {
   const particleSystem = new ParticleSystem(p5)
 
@@ -22,6 +24,12 @@ export const Sketch = p5 => {
   const update = () => {
     if (p5.mouseIsPressed) {
       drawLine()
+    } else {
+      tracks += p5.dist(0, 0, p5.movedX, p5.movedY)
+      if (tracks > 20) {
+        drawLine()
+        tracks = 0
+      }
     }
     particleSystem.update()
   }
