@@ -4,7 +4,7 @@ export class Particle {
     this.position = new this.p5.createVector(0, 0)
     this.velocity = new this.p5.createVector(0, 0)
     this.force = new this.p5.createVector(0, 0)
-    this.life = 20
+    this.life = 100
   }
 
   update() {
@@ -18,6 +18,8 @@ export class Particle {
   }
 
   draw() {
+    const c = this.p5.constrain(245 * (1 - this.life / 100.0) * 1.2, 0, 245)
+    this.p5.stroke(c)
     this.p5.curveVertex(this.position.x, this.position.y)
   }
 
