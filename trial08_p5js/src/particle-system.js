@@ -1,10 +1,9 @@
 export class ParticleSystem {
-  constructor(p5) {
-    this.p5 = p5
+  constructor() {
     this.particles = []
   }
 
-  update() {
+  update = () => {
     this.particles.forEach(p => {
       p.resetForce()
     })
@@ -15,7 +14,7 @@ export class ParticleSystem {
     })
   }
 
-  draw() {
+  draw = () => {
     this.particles.forEach(p => {
       p.draw()
     })

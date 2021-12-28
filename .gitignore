@@ -10,3 +10,6 @@ application.macosx
 
 build/
 frames/
+out/
+out/
+.vscode/
