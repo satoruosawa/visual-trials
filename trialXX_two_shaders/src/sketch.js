@@ -29,41 +29,45 @@ void main() {
 }
 `
 
-let theShader0
-let theShader1
-let backbuffer0
-let backbuffer1
+let bufferArray = []
+let shaderArray = []
 
 export const Sketch = p5 => {
-  let flag = true
+  let isFirstPGraphics = true
+
+  const backBuffer = () => {
+    return bufferArray[isFirstPGraphics ? 0 : 1]
+  }
+
+  const frontBuffer = () => {
+    return bufferArray[isFirstPGraphics ? 1 : 0]
+  }
+
+  const backShader = () => {
+    return shaderArray[isFirstPGraphics ? 0 : 1]
+  }
+
+  const frontShader = () => {
+    return shaderArray[isFirstPGraphics ? 1 : 0]
+  }
 
   p5.setup = () => {
     p5.createCanvas(100, 100, p5.WEBGL)
-    backbuffer0 = p5.createGraphics(p5.width, p5.height, p5.WEBGL)
-    backbuffer1 = p5.createGraphics(p5.width, p5.height, p5.WEBGL)
-    theShader0 = backbuffer0.createShader(vs, fs)
-    theShader1 = backbuffer1.createShader(vs, fs)
-    backbuffer0.fill(0)
-    backbuffer0.noStroke()
-    backbuffer1.fill(0)
-    backbuffer1.noStroke()
-    backbuffer0.rect(-49, -49, 1, 1)
+    for (let i = 0; i < 2; i++) {
+      bufferArray[i] = p5.createGraphics(p5.width, p5.height, p5.WEBGL)
+      shaderArray[i] = bufferArray[i].createShader(vs, fs)
+      bufferArray[i].fill(0)
+      bufferArray[i].noStroke()
+    }
+    backBuffer().rect(-49, -49, 1, 1)
   }
 
   p5.draw = () => {
-    if (flag) {
-      backbuffer1.shader(theShader1)
-      theShader1.setUniform('resolution', [p5.width, p5.height])
-      theShader1.setUniform('buffer', backbuffer0)
-      backbuffer1.rect(-50, -50, 100, 100)
-      p5.image(backbuffer1, -50, -50, p5.width, p5.height)
-    } else {
-      backbuffer0.shader(theShader0)
-      theShader0.setUniform('resolution', [p5.width, p5.height])
-      theShader0.setUniform('buffer', backbuffer1)
-      backbuffer0.rect(-50, -50, 100, 100)
-      p5.image(backbuffer0, -50, -50, p5.width, p5.height)
-    }
-    flag = !flag
+    frontBuffer().shader(frontShader())
+    frontShader().setUniform('resolution', [p5.width, p5.height])
+    frontShader().setUniform('buffer', backBuffer())
+    frontBuffer().rect(-50, -50, 100, 100)
+    p5.image(frontBuffer(), -50, -50, p5.width, p5.height)
+    isFirstPGraphics = !isFirstPGraphics
   }
 }
