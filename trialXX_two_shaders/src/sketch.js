@@ -1,33 +1,5 @@
-const vs = `
-precision highp float;
-
-attribute vec3 aPosition;
-attribute vec2 aTexCoord;
-varying vec2 vTexCoord;
-
-uniform mat4 uProjectionMatrix;
-uniform mat4 uModelViewMatrix;
-
-void main() {
-  vTexCoord = aTexCoord;
-  vec4 positionVec4 = vec4(aPosition, 1.0);
-  gl_Position = uProjectionMatrix * uModelViewMatrix * positionVec4;
-}
-`
-
-const fs = `
-precision highp float;
-
-uniform vec2 resolution;
-uniform sampler2D buffer;
-varying vec2 vTexCoord;
-
-void main() {
-  vec2 coord = vTexCoord + vec2(-1.0 / resolution.x, 0.0 / resolution.y);
-  vec4 color = texture2D(buffer, coord);
-  gl_FragColor = color;
-}
-`
+import frag from './shaders/test.frag'
+import vert from './shaders/test.vert'
 
 let bufferArray = []
 let shaderArray = []
@@ -51,11 +23,16 @@ export const Sketch = p5 => {
     return shaderArray[isFirstPGraphics ? 1 : 0]
   }
 
+  p5.preload = () => {
+    for (let i = 0; i < 2; i++) {
+      shaderArray[i] = p5.loadShader(vert, frag)
+    }
+  }
+
   p5.setup = () => {
     p5.createCanvas(100, 100, p5.WEBGL)
     for (let i = 0; i < 2; i++) {
       bufferArray[i] = p5.createGraphics(p5.width, p5.height, p5.WEBGL)
-      shaderArray[i] = bufferArray[i].createShader(vs, fs)
       bufferArray[i].fill(0)
       bufferArray[i].noStroke()
     }
