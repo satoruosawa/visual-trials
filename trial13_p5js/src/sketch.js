@@ -70,7 +70,7 @@ export const Sketch = p5 => {
       p5.rectMode(p5.CENTER)
       p5.rect(p5.width / 2, p5.height / 2, 500, 200, 20)
       p5.fill(255, 0, 0)
-      p5.text('Mix here!!', p5.width / 2, p5.height / 2 - 15)
+      p5.text('Stir here!!', p5.width / 2, p5.height / 2 - 15)
       p5.rectMode(p5.CORNER)
     }
   }
