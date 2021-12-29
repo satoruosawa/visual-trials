@@ -10,6 +10,11 @@ export const Sketch = p5 => {
   const rectSize = 10
   let pGraphics
   const ticker = new Ticker()
+  let notoSans
+
+  p5.preload = () => {
+    notoSans = p5.loadFont('assets/NotoSans-Regular.ttf')
+  }
 
   p5.setup = () => {
     canvas = p5.createCanvas(1000, 1000)
@@ -19,18 +24,18 @@ export const Sketch = p5 => {
 
   const update = () => {
     ticker.update()
-    if (ticker.frameCount % 180 == 0) {
+    if (ticker.frameCount % 60 == 0) {
       // pGraphics.beginDraw()
 
-      // pGraphics.textFont(GARAMOND_450);
-      pGraphics.textSize(450)
+      pGraphics.textFont(notoSans)
+      pGraphics.textSize(200)
       pGraphics.background(255)
       pGraphics.noStroke()
       pGraphics.fill(0)
       pGraphics.textAlign(p5.CENTER, p5.CENTER)
       pGraphics.text(
         // str(int(ticker.frameCount / 60)),
-        '1',
+        ticker.frameCount / 60,
         p5.width / 2,
         p5.height / 2
       )

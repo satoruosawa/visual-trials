@@ -5,7 +5,7 @@ export class Particle {
     this.position = this.p5.createVector(0, 0)
     this.velocity = this.p5.createVector(0, 0)
     this.force = this.p5.createVector(0, 0)
-    this.life = 180
+    this.life = 100
     this.size = 1
   }
 
@@ -23,7 +23,7 @@ export class Particle {
 
   draw = () => {
     this.p5.noStroke()
-    this.p5.fill(255 * (1 - this.life / 180))
+    this.p5.fill(255 * (1 - this.life / 100))
     this.p5.rect(this.position.x, this.position.y, this.size, this.size)
   }
 
