@@ -25,20 +25,13 @@ export const Sketch = p5 => {
   const update = () => {
     ticker.update()
     if (ticker.frameCount % 60 == 0) {
-      // pGraphics.beginDraw()
-
       pGraphics.textFont(notoSans)
       pGraphics.textSize(200)
       pGraphics.background(255)
       pGraphics.noStroke()
       pGraphics.fill(0)
       pGraphics.textAlign(p5.CENTER, p5.CENTER)
-      pGraphics.text(
-        // str(int(ticker.frameCount / 60)),
-        ticker.frameCount / 60,
-        p5.width / 2,
-        p5.height / 2
-      )
+      pGraphics.text(ticker.frameCount / 60, p5.width / 2, p5.height / 2)
       pGraphics.loadPixels()
       const pixelDensity = p5.pixelDensity()
       for (let j = 0; j < pGraphics.height; j++) {
@@ -56,8 +49,6 @@ export const Sketch = p5 => {
           }
         }
       }
-
-      // pGraphics.endDraw()
     }
     field.update()
     particleSystem.update()
