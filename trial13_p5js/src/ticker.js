@@ -1,6 +1,6 @@
 export class Ticker {
   constructor() {
-    this.frameCount = 0
+    this.frameCount = -1
   }
 
   update = () => {

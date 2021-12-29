@@ -7,7 +7,7 @@ export const Sketch = p5 => {
   let field
   let canvas
   const particleSystem = new ParticleSystem()
-  const rectSize = 10
+  const rectSize = 25
   let pGraphics
   const ticker = new Ticker()
   let notoSans
@@ -24,18 +24,19 @@ export const Sketch = p5 => {
 
   const update = () => {
     ticker.update()
-    if (ticker.frameCount % 60 == 0) {
+    if (ticker.frameCount % 180 == 0) {
       pGraphics.textFont(notoSans)
-      pGraphics.textSize(200)
+      pGraphics.textSize(600)
       pGraphics.background(255)
       pGraphics.noStroke()
       pGraphics.fill(0)
       pGraphics.textAlign(p5.CENTER, p5.CENTER)
-      pGraphics.text(ticker.frameCount / 60, p5.width / 2, p5.height / 2)
+      const number = (ticker.frameCount / 180) % 10
+      pGraphics.text(number, p5.width / 2, p5.height / 2)
       pGraphics.loadPixels()
       const pixelDensity = p5.pixelDensity()
-      for (let j = 0; j < pGraphics.height; j++) {
-        for (let i = 0; i < pGraphics.width; i++) {
+      for (let j = 0; j < pGraphics.height; j += 2) {
+        for (let i = 0; i < pGraphics.width; i += 2) {
           const index =
             (j * pixelDensity * pGraphics.width * pixelDensity +
               i * pixelDensity) *
@@ -46,6 +47,7 @@ export const Sketch = p5 => {
             p.position = p5.createVector(i, j)
             particleSystem.addParticle(p)
             p.addField(field)
+            p.baseColor = c
           }
         }
       }
@@ -65,6 +67,14 @@ export const Sketch = p5 => {
       .createVector(p5.mouseX - p5.pmouseX, p5.mouseY - p5.pmouseY)
       .mult(2)
     const position = p5.createVector(p5.mouseX, p5.mouseY)
+    field && field.addLerpVelocity(position, diffMouse)
+  }
+
+  p5.touchMoved = () => {
+    const diffMouse = p5
+      .createVector(p5.mouseX - p5.pmouseX, p5.mouseY - p5.pmouseY)
+      .mult(2)
+    const position = p5.createVector(p5.touches[0].x, p5.touches[0].y)
     field && field.addLerpVelocity(position, diffMouse)
   }
 
